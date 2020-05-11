@@ -7,7 +7,9 @@ export const postReducer = (state: Post[] = [], action: Action = { type: ActionT
         case ActionType.ADD_POST:
 
             return [...state, action.post];
-
+        case ActionType.SET_POSTS:
+            console.log('reducer')
+            return action.posts;
         default:
             return state;
     }

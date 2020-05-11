@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { getRepository } from "typeorm";
-import Post from "../entity/Post";
+import PostCategory from "../entity/PostCategory";
+
 
 
 const router = Router();
 
 router.get('/', (req, res) => {
-    getRepository(Post).find().then(value => {
+    getRepository(PostCategory).find().then(value => {
         res.json(value);
     })
 })
-
 
 export default router;

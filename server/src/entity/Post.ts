@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { User } from "./User";
 import Comment from "./Comment";
+import PostCategory from "./PostCategory";
 
 @Entity()
 export default class Post {
@@ -14,9 +15,12 @@ export default class Post {
     @Column()
     description: string;
 
-    @ManyToOne(type => User)
+    @ManyToOne(type => User, { eager: true })
     author: User;
 
     @OneToMany(t => Comment, t => t.post, { eager: false })
     comments: Comment[];
+
+    @ManyToOne(t => PostCategory, { eager: true })
+    category: PostCategory
 }

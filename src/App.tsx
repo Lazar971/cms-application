@@ -4,6 +4,7 @@ import { Grid } from 'semantic-ui-react';
 import TopMenu from './components/TopMenu';
 import { Switch, Route } from 'react-router-dom';
 import ViewPosts from './components/ViewPosts';
+import PostForm from './components/PostForm';
 function App() {
 
   return (
@@ -20,9 +21,9 @@ function App() {
           <Route exact path='/post'>
             2adsfghj
           </Route>
-          <Route exact path='/post/:id'>
-            3
-        </Route>
+          <Route path='/post/:id'>
+            <PostForm />
+          </Route>
           <Route exact path='/admin'>
             4
         </Route>

@@ -5,6 +5,8 @@ export const postCategoryReducer = (state: PostCategory[] = [], action: Action =
     switch (action.type) {
         case ActionType.FETCH_POST_CATEGORIES:
             return [...state, action.categories];
+        case ActionType.SET_CATEGORIES:
+            return action.categories;
     }
     return state;
 }

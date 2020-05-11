@@ -1,26 +1,23 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
-import { Post, User, PostCategory } from '../model/model.type';
-import PostCard from './PostCard';
 import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
+import { loadPosts } from '../actions/PostActons';
+import { Post } from '../model/model.type';
 import { StateType } from '../model/store.type';
-import { addPost } from '../actions/PostActons';
+import PostCard from './PostCard';
 import PostFilter from './PostFilter';
 
 interface StoreProps {
     posts: Post[],
-    addPost: (id: number, title: string, description: string, author: User, category: PostCategory) => void;
-    categoryId: number
+    categoryId: number,
+    loadPosts: () => Promise<void>;
 }
 
 function ViewPosts(props: StoreProps) {
     React.useEffect(() => {
-        props.addPost(1, 'Naslov1', 'asghasssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssss\nssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssaaaaaaaaaaaaaaaaaaaaadsssznsssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssssssssssssssssssssssssssssssssssssdjk', { id: 1, lastName: 'afgr', firstName: 'afesgr', age: 3, category: 'admin' }, { id: 1, value: 'c1' });
-        props.addPost(1, 'Naslov1', 'asghasssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssss\nssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssaaaaaaaaaaaaaaaaaaaaadsssznsssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssssssssssssssssssssssssssssssssssssdjk', { id: 1, lastName: 'afgr', firstName: 'afesgr', age: 3, category: 'admin' }, { id: 1, value: 'c1' });
-        props.addPost(1, 'Naslov1', 'asghasssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssss\nssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssaaaaaaaaaaaaaaaaaaaaadsssznsssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssssssssssssssssssssssssssssssssssssdjk', { id: 1, lastName: 'afgr', firstName: 'afesgr', age: 3, category: 'admin' }, { id: 1, value: 'c1' });
-        props.addPost(1, 'Naslov1', 'asghasssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssss\nssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssaaaaaaaaaaaaaaaaaaaaadsssznsssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssssssssssssssssssssssssssssssssssssdjk', { id: 1, lastName: 'afgr', firstName: 'afesgr', age: 3, category: 'admin' }, { id: 1, value: 'c1' });
-        props.addPost(1, 'Naslov1', 'asghasssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssss\nssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssaaaaaaaaaaaaaaaaaaaaadsssznsssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssssssssssssssssssssssssssssssssssssdjk', { id: 1, lastName: 'afgr', firstName: 'afesgr', age: 3, category: 'admin' }, { id: 1, value: 'c1' });
-        props.addPost(1, 'Naslov1', 'asghasssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssss\nssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssaaaaaaaaaaaaaaaaaaaaadsssznsssssssssssssssssssssssssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssss\nssssssssssssssssssssssssssssssssssssssssssssssssssdjk', { id: 1, lastName: 'afgr', firstName: 'afesgr', age: 3, category: 'admin' }, { id: 1, value: 'c1' });
+        console.log('pre');
+        props.loadPosts();
+
     }, [])
     return (
         <>
@@ -45,8 +42,6 @@ export default connect((state: StateType) => {
     }
 }, (dispach) => {
     return {
-        addPost: (id: number, title: string, description: string, author: User, category: PostCategory) => {
-            dispach(addPost({ id: id, title: title, description: description, author: author, category: category }))
-        }
+        loadPosts: loadPosts(dispach)
     }
 })(ViewPosts);
