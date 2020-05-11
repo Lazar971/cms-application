@@ -12,6 +12,26 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.fixed{
+  position: relative !important;
+}
+.body{
+  height: 100vh !important;
+}
+.firstRow{
+  height: 4% !important;
+  vertical-align: top;
+  
+}
+.topMenu{
+  height: 100%;
+}
+.secondRow{
+  height: 90% !important;
+}
+
+
+
 
 .App-header {
   background-color: #282c34;
