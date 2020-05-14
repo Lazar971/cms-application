@@ -9,12 +9,12 @@ export default class Comment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ type: 'text' })
     content: string;
 
-    @ManyToOne(type => Post, p => p.comments, { primary: true, cascade: true })
+    @ManyToOne(type => Post, p => p.comments, { primary: true, cascade: true, eager: true })
     post: Post;
 
-    @ManyToOne(t => User)
+    @ManyToOne(t => User, { eager: true })
     user: User;
 }

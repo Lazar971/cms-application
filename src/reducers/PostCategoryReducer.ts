@@ -13,7 +13,7 @@ export const postCategoryReducer = (state: PostCategory[] = [], action: Action =
 export const activeCategoryReducer = (state: number = 0, action: Action = { type: ActionType.DEFAULT }) => {
     switch (action.type) {
         case ActionType.SET_ACTIVE_CATEGORY:
-            return action.category;
+            return action.category === state ? 0 : action.category;
         default:
             return state;
     }

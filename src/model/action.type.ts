@@ -6,7 +6,7 @@ export enum ActionType {
     DEFAULT = 'def',
     FETCH_POST_CATEGORIES = 'fpc',
     SET_ACTIVE_CATEGORY = 'ac',
-    SET_CATEGORIES = 'setCategories'
+    SET_CATEGORIES = 'setCategories',
 
 }
 

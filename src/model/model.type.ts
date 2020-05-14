@@ -14,7 +14,8 @@ export interface Post {
     title: string,
     description: string,
     author: User,
-    category: PostCategory
+    category: PostCategory,
+    comments: Comment[]
 }
 export interface Comment {
     id: number,

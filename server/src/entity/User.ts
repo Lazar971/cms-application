@@ -16,6 +16,12 @@ export class User {
     @Column()
     age: number;
 
+    @Column()
+    username: string;
+
+    @Column()
+    password: string
+
     @ManyToOne(type => UserCategory)
     category: UserCategory;
 }

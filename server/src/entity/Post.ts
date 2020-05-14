@@ -12,7 +12,7 @@ export default class Post {
     @Column()
     title: string;
 
-    @Column()
+    @Column({ type: 'text' })
     description: string;
 
     @ManyToOne(type => User, { eager: true })

@@ -9,10 +9,10 @@ export const fetchPostCategories = (cat: PostCategory): Action => {
         categories: cat
     }
 }
-export const setActiveCategory = (cat: PostCategory): Action => {
+export const setActiveCategory = (cat?: PostCategory): Action => {
     return {
         type: ActionType.SET_ACTIVE_CATEGORY,
-        category: cat.id
+        category: cat ? cat.id : 0
     }
 }
 export const setCategories = (cat: PostCategory[]): Action => {

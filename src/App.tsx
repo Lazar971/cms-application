@@ -1,11 +1,24 @@
 import React from 'react';
-import './App.css';
+import { Route, Switch } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
+import './App.css';
+import PostDetails from './components/PostDetails';
 import TopMenu from './components/TopMenu';
-import { Switch, Route } from 'react-router-dom';
 import ViewPosts from './components/ViewPosts';
-import PostForm from './components/PostForm';
-function App() {
+import { connect } from 'react-redux';
+import { StateType } from './model/store.type';
+import { loadPosts } from './actions/PostActons';
+import Login from './components/user/Login';
+import UserPosts from './components/UserPosts';
+import NewPost from './components/user/NewPost';
+import AdminPage from './components/AdminPage';
+function App(props: any) {
+
+  React.useEffect(() => {
+    console.log('pre');
+    props.loadPosts();
+
+  }, [])
 
   return (
     <Grid padded='horizontally' columns='16' className='body'>
@@ -19,17 +32,20 @@ function App() {
             <ViewPosts />
           </Route>
           <Route exact path='/post'>
-            2adsfghj
+            <UserPosts />
           </Route>
           <Route path='/post/:id'>
-            <PostForm />
+            <PostDetails />
           </Route>
           <Route exact path='/admin'>
-            4
-        </Route>
+            <AdminPage />
+          </Route>
+          <Route exact path='/newPost'>
+            <NewPost />
+          </Route>
           <Route exact path='/login'>
-            1
-        </Route>
+            <Login />
+          </Route>
           <Route exact path='/signup'>
             2
         </Route>
@@ -40,4 +56,11 @@ function App() {
   );
 }
 
-export default App;
+export default connect((state: StateType) => {
+  return {
+  }
+}, (dispach) => {
+  return {
+    loadPosts: loadPosts(dispach)
+  }
+})(App);

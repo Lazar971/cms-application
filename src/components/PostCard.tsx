@@ -8,10 +8,14 @@ interface Props {
 }
 export default function PostCard(props: Props) {
     return (
-        <Card fluid as={Link} to={`/post/${props.post.id}`} color='yellow'>
+        <Card fluid as={Link} to={`/post/${props.post.id}`} color='black'>
             <Card.Content >
                 <Card.Header textAlign='center' >{props.post.title}</Card.Header>
-                <Card.Description textAlign='left'>{props.post.description}</Card.Description>
+                <Card.Description textAlign='left'>
+                    {
+                        (props.post.description.length > 200) ? props.post.description.substr(0, 197) + '...' : props.post.description
+                    }
+                </Card.Description>
             </Card.Content>
 
         </Card>

@@ -18,7 +18,17 @@ export const setPosts = (posts: Post[]): Action => {
 export const loadPosts = (dispach: Dispatch<Action>) => {
     return () => {
         return axios.get('http://localhost:5000/post').then(value => {
-            dispach(setPosts(value.data));
+            let posts = value.data as Post[];
+            Promise.all(posts.map(element => {
+                return axios.get(`http://localhost:5000/post/${element.id}/comments`).then(result => {
+
+
+                    element.comments = result.data;
+                })
+            })).then(value => {
+                dispach(setPosts(posts));
+            })
+
         })
     }
 }
