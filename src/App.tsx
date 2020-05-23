@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Label } from 'semantic-ui-react';
 import './App.css';
 import PostDetails from './components/PostDetails';
 import TopMenu from './components/TopMenu';
@@ -12,14 +12,23 @@ import Login from './components/user/Login';
 import UserPosts from './components/UserPosts';
 import NewPost from './components/user/NewPost';
 import AdminPage from './components/AdminPage';
+import { chechUser } from './actions/UserActions';
 function App(props: any) {
+  const [loading,setLoading]=React.useState(true);
 
   React.useEffect(() => {
     console.log('pre');
     props.loadPosts();
-
+    props.findUser().then((value:void)=>{
+      console.log('end')
+      setLoading(false);
+    });
   }, [])
-
+  if(loading){
+    return (<>
+      <Label>Loading...</Label>
+    </>)
+  }
   return (
     <Grid padded='horizontally' columns='16' className='body'>
       <Grid.Row className='firstRow' >
@@ -61,6 +70,7 @@ export default connect((state: StateType) => {
   }
 }, (dispach) => {
   return {
-    loadPosts: loadPosts(dispach)
+    loadPosts: loadPosts(dispach),
+    findUser:chechUser(dispach)
   }
 })(App);

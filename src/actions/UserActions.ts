@@ -25,6 +25,16 @@ export const setUserAction = (user?: User): Action => {
         type: ActionType.LOGIN,
         user: user
     }
-
-
+}
+export const chechUser=(dispach: Dispatch<Action>)=>()=>{
+    console.log('start');
+    return Axios.post('http://localhost:5000/user',{action:'check'}).then(value=>{
+        console.log('end request');
+        console.log(value.data);
+        if(!value.data){
+            return;
+        }
+        
+        dispach(setUserAction(value.data));
+    })
 }

@@ -4,6 +4,7 @@
    "port": 3306,
    "username": "root",
    "password": "",
+   "synchronize":true,
    "database": "cms",
    "entities": [
       "src/entity/**/*.ts"

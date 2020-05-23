@@ -10,24 +10,37 @@ import * as bodyParser from 'body-parser';
 createConnection().then(async connection => {
 
     const app = express();
-    app.use(cors());
+    
+    app.use(cors({
+        credentials:true,
+
+        methods:['GET','POST','PATCH','DELETE'],
+        origin:'http://localhost:3000'
+        
+    }));
     app.use(bodyParser.json());
     app.use(session({
         secret: 'keyboard cat',
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: true },
+        resave:false,
+        
+        saveUninitialized: false,
+        cookie:{
+            secure:process.env.NODE_ENV==='production',
+            maxAge:1000*60*10,
+            httpOnly:true,
+        }
 
     }))
 
     app.use('/user', UserRoute);
     app.use('/post', PostRoute);
     app.use('/postCategory', PostCategoryRoute);
-    app.use('/*', (req, res, next) => {
+    app.use('/', (req, res, next) => {
 
         res.status(304);
 
     })
+    
     app.listen(5000, () => console.log("app is listening"))
 
 }).catch(error => console.log(error));

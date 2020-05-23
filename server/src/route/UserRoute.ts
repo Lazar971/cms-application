@@ -11,20 +11,33 @@ router.get('/', (req, res) => {
     }
 })
 router.post('/', (req, res) => {
-    console.log(req.body);
+    
     if (req.body.action === 'login') {
-        getRepository(User).find().then(value => {
-            console.log(req.body);
-            let user = value.find(element => element.username === req.body.username && element.password === req.body.password);
-            console.log(user);
+        getRepository(User).find({
+            where:{
+                password:req.body.password,
+                username:req.body.username
+            }
+        }).then(value => {
+           
+            let user = value[0];
+
+           
             if (user) {
+                (req.session as any).user=user;
+                req.session.save((err)=>{console.log(err)});
+                console.log(req.session);
                 res.json(user);
             } else {
                 res.json(false);
             }
         })
+        return;
     }
-
+    if (req.body.action === 'check'){
+        res.json(req.session.user);
+        return;
+    }
 })
 
 export default router;

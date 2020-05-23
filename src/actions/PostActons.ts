@@ -1,13 +1,8 @@
-import { Post } from "../model/model.type";
+import { Post, PostCategory } from "../model/model.type";
 import { Action, ActionType } from "../model/action.type";
 import { Dispatch } from "redux";
 import axios from 'axios'
-export const addPost = (post: Post): Action => {
-    return {
-        type: ActionType.ADD_POST,
-        post: post
-    }
-}
+axios.defaults.withCredentials=true;
 export const setPosts = (posts: Post[]): Action => {
     console.log(posts);
     return {
@@ -31,4 +26,23 @@ export const loadPosts = (dispach: Dispatch<Action>) => {
 
         })
     }
+}
+export const addPost=(dispach: Dispatch<Action>)=>(title:string,desc:string,cat:PostCategory)=>{
+    console.log('kliknuto');
+    return axios.post('http://localhost:5000/post',{title:title,description:desc,category:cat},{
+        withCredentials:true,
+        
+        
+    }).then(value=>{
+        
+        let data=value.data;
+        if(data.error){
+            console.log({error:data});
+            return;
+        }
+        dispach({
+            type:ActionType.ADD_POST,
+            post:data
+        })
+    })
 }

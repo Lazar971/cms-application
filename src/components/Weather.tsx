@@ -31,7 +31,7 @@ export default function Weather() {
         }
     }
     React.useEffect(() => {
-        Axios.get('http://www.7timer.info/bin/api.pl?lon=113.17&lat=23.09&product=civillight&output=json').then(value => {
+        Axios.get('http://www.7timer.info/bin/api.pl?lon=113.17&lat=23.09&product=civillight&output=json',{withCredentials:false}).then(value => {
             console.log(value.data);
             setWeather({ ...value.data.dataseries[0] });
         }).catch(err => {

@@ -35,12 +35,12 @@ function UserPosts(props: Props) {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {props.posts.slice((page - 1) * 10, 10 * page).map((element, index) => {
+                    {props.posts.slice((page - 1) * 5, 5 * page).map((element, index) => {
                         return (
                             <Table.Row key={element.id}>
-                                <Table.Cell>{(page - 1) * 10 + index + 1}</Table.Cell>
+                                <Table.Cell>{(page - 1) * 5 + index + 1}</Table.Cell>
                                 <Table.Cell>{element.title}</Table.Cell>
-                                <Table.Cell>{element.comments.length}</Table.Cell>
+                                <Table.Cell>{element.comments?element.comments.length:0}</Table.Cell>
                                 <Table.Cell >
                                     <Link to={`/post/${element.id}`}>Details</Link>
                                 </Table.Cell>
@@ -56,13 +56,15 @@ function UserPosts(props: Props) {
                     })}
                 </Table.Body>
             </Table>
-            <Pagination activePage={page} onPageChange={(event, data) => {
+            <Pagination  activePage={page} onPageChange={(event, data) => {
+                 console.log(data);
                 if (typeof data.activePage === 'string') {
+                   
                     setPage(parseInt(data.activePage))
                 } else {
                     setPage(data.activePage || 1);
                 }
-            }} totalPages={props.posts.length / 10} />
+            }} totalPages={Math.ceil(props.posts.length / 5)} />
 
         </Container>
     );
