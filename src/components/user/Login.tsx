@@ -28,7 +28,7 @@ function Login(props: Props & RouteComponentProps) {
                 }} />
             </Form.Field>
 
-            <Button color='purple' onClick={(e) => {
+            <Button className='inverted' onClick={(e) => {
                 e.preventDefault();
                 props.login(username, password).then(value => {
 
@@ -41,7 +41,7 @@ function Login(props: Props & RouteComponentProps) {
                 })
 
             }}>Login</Button>
-        </Form>
+        </Form >
     );
 }
 export default withRouter(connect(state => {

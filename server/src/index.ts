@@ -7,27 +7,28 @@ import PostRoute from './route/PostRoute'
 import PostCategoryRoute from './route/PostCategoryRoute'
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
+
 createConnection().then(async connection => {
 
     const app = express();
-    
-    app.use(cors({
-        credentials:true,
 
-        methods:['GET','POST','PATCH','DELETE'],
-        origin:'http://localhost:3000'
-        
+    app.use(cors({
+        credentials: true,
+
+        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+        origin: 'http://localhost:3000'
+
     }));
     app.use(bodyParser.json());
     app.use(session({
         secret: 'keyboard cat',
-        resave:false,
-        
+        resave: false,
+
         saveUninitialized: false,
-        cookie:{
-            secure:process.env.NODE_ENV==='production',
-            maxAge:1000*60*10,
-            httpOnly:true,
+        cookie: {
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 1000 * 60 * 10,
+            httpOnly: true,
         }
 
     }))
@@ -40,7 +41,7 @@ createConnection().then(async connection => {
         res.status(304);
 
     })
-    
+
     app.listen(5000, () => console.log("app is listening"))
 
 }).catch(error => console.log(error));

@@ -20,6 +20,7 @@
 .postDetails{
   background-color: white ;
   margin-top: 1px !important;
+  display: inline-flex !important;
   
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -32,6 +33,7 @@
 }
 .body{
   height: 100vh !important;
+  padding: 0% !important;
   background-color: rgb(216, 223, 228);
 }
 .firstRow{
@@ -43,9 +45,12 @@
   height: 100%;
 }
 .secondRow{
-  height: 90% !important;
+  height: 91% !important;
 }
-
+.postTitle{
+  background-color: white ;
+  margin-top: 1px !important;
+}
 
 
 

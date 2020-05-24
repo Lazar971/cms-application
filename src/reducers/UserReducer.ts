@@ -6,7 +6,8 @@ export const userReducer = (state: User | null = null, action: Action = { type: 
         case ActionType.LOGIN:
             return action.user;
             break;
-
+        case ActionType.LOGOUT:
+            return null;
         default:
             return state;
     }

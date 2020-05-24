@@ -4,14 +4,19 @@ import Axios from "axios";
 import { User } from "../model/model.type";
 
 export const loginUser = (dispach: Dispatch<Action>) => {
+
     return (username: string, password: string) => {
-        console.log(username, password);
+
         return Axios.post('http://localhost:5000/user', {
             action: 'login',
             username: username,
             password: password
+        }, {
+            auth: {
+                password: 'pass',
+                username: 'usname'
+            }
         }).then(value => {
-            console.log("Login: " + value.data);
             if (!value.data) {
                 return Promise.resolve(false);
             }
@@ -26,15 +31,23 @@ export const setUserAction = (user?: User): Action => {
         user: user
     }
 }
-export const chechUser=(dispach: Dispatch<Action>)=>()=>{
+export const chechUser = (dispach: Dispatch<Action>) => () => {
     console.log('start');
-    return Axios.post('http://localhost:5000/user',{action:'check'}).then(value=>{
-        console.log('end request');
-        console.log(value.data);
-        if(!value.data){
+    return Axios.post('http://localhost:5000/user', { action: 'check' }).then(value => {
+
+        if (!value.data) {
             return;
         }
-        
+
         dispach(setUserAction(value.data));
+    })
+}
+export const logout = (dispach: Dispatch<Action>) => () => {
+    return Axios.post('http://localhost:5000/user', { action: 'logout' }).then(value => {
+        if (value.data !== true) {
+            alert(value.data);
+        } else {
+            dispach({ type: ActionType.LOGOUT });
+        }
     })
 }

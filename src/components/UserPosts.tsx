@@ -5,10 +5,12 @@ import { User, Post } from '../model/model.type';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { StateType } from '../model/store.type';
+import { deletePost } from '../actions/PostActons';
 
 interface Props {
     user?: User,
-    posts: Post[]
+    posts: Post[],
+    onDelete: (id: number) => void
 }
 
 function UserPosts(props: Props) {
@@ -29,6 +31,7 @@ function UserPosts(props: Props) {
                         <Table.HeaderCell>No.</Table.HeaderCell>
                         <Table.HeaderCell>Title</Table.HeaderCell>
                         <Table.HeaderCell>No. of comments</Table.HeaderCell>
+                        <Table.HeaderCell>Author</Table.HeaderCell>
                         <Table.HeaderCell>Details</Table.HeaderCell>
                         <Table.HeaderCell>Update</Table.HeaderCell>
                         <Table.HeaderCell>Delete</Table.HeaderCell>
@@ -40,7 +43,8 @@ function UserPosts(props: Props) {
                             <Table.Row key={element.id}>
                                 <Table.Cell>{(page - 1) * 5 + index + 1}</Table.Cell>
                                 <Table.Cell>{element.title}</Table.Cell>
-                                <Table.Cell>{element.comments?element.comments.length:0}</Table.Cell>
+                                <Table.Cell>{element.comments ? element.comments.length : 0}</Table.Cell>
+                                <Table.Cell>{(element.author && element.author.id === props.user?.id) ? 'You' : (element.author?.username || 'not found')}</Table.Cell>
                                 <Table.Cell >
                                     <Link to={`/post/${element.id}`}>Details</Link>
                                 </Table.Cell>
@@ -48,7 +52,10 @@ function UserPosts(props: Props) {
                                     <Link to='/'> Update</Link>
                                 </Table.Cell>
                                 <Table.Cell >
-                                    <Button color='red'>Delete</Button>
+                                    <Button onClick={(e, data) => {
+                                        console.log('delete')
+                                        props.onDelete(element.id);
+                                    }} color='red'>Delete</Button>
                                 </Table.Cell>
 
                             </Table.Row>
@@ -56,10 +63,10 @@ function UserPosts(props: Props) {
                     })}
                 </Table.Body>
             </Table>
-            <Pagination  activePage={page} onPageChange={(event, data) => {
-                 console.log(data);
+            <Pagination activePage={page} onPageChange={(event, data) => {
+                console.log(data);
                 if (typeof data.activePage === 'string') {
-                   
+
                     setPage(parseInt(data.activePage))
                 } else {
                     setPage(data.activePage || 1);
@@ -73,5 +80,9 @@ export default connect((state: StateType) => {
     return {
         user: state.user,
         posts: state.posts.filter(element => state.user && (state.user.category === 'admin' || element.author && element.author.id === state.user.id))
+    }
+}, (dispach) => {
+    return {
+        onDelete: deletePost(dispach)
     }
 })(UserPosts);

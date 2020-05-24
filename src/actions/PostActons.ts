@@ -4,7 +4,6 @@ import { Dispatch } from "redux";
 import axios from 'axios'
 axios.defaults.withCredentials=true;
 export const setPosts = (posts: Post[]): Action => {
-    console.log(posts);
     return {
         type: ActionType.SET_POSTS,
         posts: posts
@@ -28,7 +27,6 @@ export const loadPosts = (dispach: Dispatch<Action>) => {
     }
 }
 export const addPost=(dispach: Dispatch<Action>)=>(title:string,desc:string,cat:PostCategory)=>{
-    console.log('kliknuto');
     return axios.post('http://localhost:5000/post',{title:title,description:desc,category:cat},{
         withCredentials:true,
         
@@ -44,5 +42,21 @@ export const addPost=(dispach: Dispatch<Action>)=>(title:string,desc:string,cat:
             type:ActionType.ADD_POST,
             post:data
         })
+    })
+}
+export const deletePost=(dispach: Dispatch<Action>)=>(id:number)=>{
+
+    return axios.delete('http://localhost:5000/post/'+id).then(value=>{
+        console.log(value.data);
+        if(!value.data.status){
+            alert('unknown error');
+        }
+        alert(value.data.status);
+        if(value.data.status==='success'){
+            dispach({
+                type:ActionType.DELETE_POST,
+                id:id
+            })
+        }
     })
 }

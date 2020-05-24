@@ -8,8 +8,10 @@ export const postReducer = (state: Post[] = [], action: Action = { type: ActionT
 
             return [...state, action.post];
         case ActionType.SET_POSTS:
-            console.log('reducer')
+            
             return action.posts;
+        case ActionType.DELETE_POST:
+            return state.filter(element=>element.id!==action.id);
         default:
             return state;
     }

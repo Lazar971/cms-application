@@ -3,7 +3,8 @@ export interface User {
     firstName: string,
     lastName: string,
     age: number,
-    category: 'reqular' | 'admin'
+    username: string,
+    category: 'user' | 'admin'
 }
 export interface PostCategory {
     id: number,

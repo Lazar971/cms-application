@@ -13,6 +13,7 @@ import UserPosts from './components/UserPosts';
 import NewPost from './components/user/NewPost';
 import AdminPage from './components/AdminPage';
 import { chechUser } from './actions/UserActions';
+import Signup from './components/user/Signup';
 function App(props: any) {
   const [loading,setLoading]=React.useState(true);
 
@@ -56,7 +57,7 @@ function App(props: any) {
             <Login />
           </Route>
           <Route exact path='/signup'>
-            2
+            <Signup />
         </Route>
         </Switch>
       </Grid.Row>

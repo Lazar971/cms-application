@@ -2,38 +2,24 @@ import { Router } from "express";
 import { getRepository } from "typeorm";
 import Post from "../entity/Post";
 import Comment from "../entity/Comment";
-
+import CommentRoute from './CommentRoute'
 
 const router = Router();
-
+router.use('/:id/comments',CommentRoute);
 router.get('/', (req, res) => {
     getRepository(Post).find().then(value => {
         res.json(value);
     })
 })
-router.get('/:id/comments', (req, res) => {
-    getRepository(Comment).find({
-        where: {
-            post: {
-                id: req.params.id
-            }
-        }
-    }).then(value => {
-        res.json(value);
-    })
-})
+
 router.post('/',(req,res)=>{
-    console.log('pre header');
-    console.log('posle header');
-    console.log(req.session);
+    
     if(!req.session.user){
-        console.log('no user');
         res.json({
             error:'You are not logged in',
            // session:req.session
         });
     }else{
-        console.log({user:req.session.user});
         let title=req.body.title;
         let description=req.body.description;
         let category=req.body.category;
@@ -42,5 +28,24 @@ router.post('/',(req,res)=>{
             res.json({author:req.session.user,category:category,description:description,title:title,id:id})
         })
     }
+})
+router.patch('/:id',(req,res)=>{
+    
+})
+router.delete('/:id',(req,res)=>{
+    console.log(req.params.id)
+    getRepository(Post).findOne(req.params.id).then(value=>{
+        console.log(value);
+        if(value){
+            getRepository(Post).delete(req.params.id).then(value=>{
+                console.log(value);
+                res.json({status:'success'});
+            }).catch(value=>{
+                res.json({status:'could not delete'});
+            })
+        }else{
+            res.send({status:'not Found'});
+        }
+    })
 })
 export default router;

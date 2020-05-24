@@ -19,9 +19,9 @@ export class User {
     @Column()
     username: string;
 
-    @Column({select:false})
+    @Column({ select: false })
     password: string
 
-    @ManyToOne(type => UserCategory)
+    @ManyToOne(type => UserCategory, { eager: true })
     category: UserCategory;
 }

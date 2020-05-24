@@ -35,6 +35,9 @@ function PostDetails(props: Props & RouteComponentProps) {
                         <Header.Subheader >
                             Author: {printAuthor()}
                         </Header.Subheader>
+                        <Header.Subheader>
+                            Category: {props.post.category.value}
+                        </Header.Subheader>
                     </Header>
                 </Grid.Column>
             </Grid.Row>

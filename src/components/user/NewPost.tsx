@@ -7,47 +7,47 @@ import { StateType } from '../../model/store.type';
 import { addPost } from '../../actions/PostActons';
 interface Props {
     user?: User,
-    categories:PostCategory[],
-    onClick:(title:string,desc:string,cat:PostCategory)=>void,
+    categories: PostCategory[],
+    onClick: (title: string, desc: string, cat: PostCategory) => void,
 }
 function NewPost(props: Props) {
-    const [title,setTitle]=React.useState('');
-    const [desc,setDesc]=React.useState('');
-    const [cat,setCat]=React.useState<PostCategory|undefined>(undefined);
+    const [title, setTitle] = React.useState('');
+    const [desc, setDesc] = React.useState('');
+    const [cat, setCat] = React.useState<PostCategory | undefined>(undefined);
     if (!props.user) {
         return (
             <Redirect to='/login' />
         )
     }
-   
+
     return (
         <Container fluid >
             <Header as='h2'>Add new post</Header>
             <Form size='big'>
-                <Form.Input className='postDetails' labelPosition='left corner' value={title} onChange={(e,data)=>{
+                <Form.Input className='postTitle' labelPosition='left corner' value={title} onChange={(e, data) => {
                     setTitle(e.currentTarget.value);
                 }} label='Title' />
-                <TextArea placeholder='Content...' value={desc} onChange={(e,data)=>{
+                <TextArea placeholder='Content...' value={desc} onChange={(e, data) => {
                     setDesc(e.currentTarget.value);
                 }} />
-                <Dropdown selection  value={cat&& cat.id} fluid placeholder='category'  options={props.categories.map((element,index):DropdownItemProps=>{
+                <Dropdown selection value={cat && cat.id} fluid placeholder='category' options={props.categories.map((element, index): DropdownItemProps => {
                     return {
-                        key:element.id,
-                        text:element.value,
-                        active:element===cat,
-                        selected:element===cat,
-                        value:element.id
+                        key: element.id,
+                        text: element.value,
+                        active: element === cat,
+                        selected: element === cat,
+                        value: element.id
                     }
-                })} onChange={(e,data)=>{
-                    setCat(props.categories.find(element=>element.id===data.value));
+                })} onChange={(e, data) => {
+                    setCat(props.categories.find(element => element.id === data.value));
                 }} />
-                <Button disabled={!cat ||title===''} className='inverted' onClick={()=>{
+                <Button disabled={!cat || title === ''} className='inverted' onClick={() => {
                     console.log('kliknuto');
-                    if(!cat){
+                    if (!cat) {
                         alert('Please insert the category')
                         return;
                     }
-                    props.onClick(title,desc,cat);
+                    props.onClick(title, desc, cat);
                 }}>Add post</Button>
             </Form>
         </Container>
@@ -56,10 +56,10 @@ function NewPost(props: Props) {
 export default connect((state: StateType) => {
     return {
         user: state.user,
-        categories:state.postCategories
+        categories: state.postCategories
     }
-},dispach=>{
-    return{
-        onClick:addPost(dispach)
+}, dispach => {
+    return {
+        onClick: addPost(dispach)
     }
 })(NewPost);

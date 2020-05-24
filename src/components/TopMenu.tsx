@@ -5,8 +5,10 @@ import { User } from '../model/model.type';
 import { connect } from 'react-redux';
 import { StateType } from '../model/store.type';
 import Weather from './Weather';
+import { logout } from '../actions/UserActions';
 interface Props {
-    user?: User
+    user?: User,
+    logout: () => void;
 }
 function TopMenu(props: Props) {
     return (
@@ -34,15 +36,22 @@ function TopMenu(props: Props) {
                 {!props.user ? (
                     <>
                         <Menu.Item  >
-                            <Button as={Link} color='teal' to='/login'>Login</Button>
+                            <Button as={Link} className='inverted' to='/login'>Login</Button>
                         </Menu.Item>
                         <Menu.Item  >
-                            <Button as={Link} color='teal' to='/signup'>Sign up</Button>
+                            <Button as={Link} className='inverted' to='/signup'>Sign up</Button>
                         </Menu.Item>
                     </>) : (
-                        <Menu.Item>
-                            <Button as={Link} color='teal' to='/'>Logout</Button>
-                        </Menu.Item>
+                        <>
+                            <Menu.Item>
+                                {props.user.username}
+                            </Menu.Item>
+                            <Menu.Item>
+                                <Button as={Link} onClick={() => {
+                                    props.logout();
+                                }} className='inverted' to='/' >Logout</Button>
+                            </Menu.Item>
+                        </>
                     )}
             </Menu.Menu>
         </Menu>
@@ -51,5 +60,9 @@ function TopMenu(props: Props) {
 export default connect((state: StateType) => {
     return {
         user: state.user
+    }
+}, (dispach) => {
+    return {
+        logout: logout(dispach)
     }
 })(TopMenu);
