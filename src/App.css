@@ -46,13 +46,17 @@
 }
 .secondRow{
   height: 91% !important;
+  overflow: auto !important;
+  margin-top: 2% !important;
+  padding: 0% !important;
 }
 .postTitle{
   background-color: white ;
   margin-top: 1px !important;
 }
-
-
+.whiteBackground{
+  background-color: white !important;
+}
 
 .App-header {
   background-color: #282c34;

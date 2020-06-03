@@ -1,9 +1,9 @@
 import React from 'react';
-import { Menu } from 'semantic-ui-react';
-import { PostCategory } from '../model/model.type';
 import { connect } from 'react-redux';
+import { Menu } from 'semantic-ui-react';
+import { loadCategories, setActiveCategory } from '../actions/PostCategoryActions';
+import { PostCategory } from '../model/model.type';
 import { StateType } from '../model/store.type';
-import { fetchPostCategories, setActiveCategory, loadCategories } from '../actions/PostCategoryActions';
 
 interface Props {
     categories: PostCategory[],
@@ -13,9 +13,6 @@ interface Props {
 }
 function PostFilter(props: Props) {
 
-    React.useEffect(() => {
-        props.loadCat();
-    }, [])
 
     return (
         <Menu vertical fluid >

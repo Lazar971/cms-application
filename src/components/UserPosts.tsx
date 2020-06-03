@@ -1,11 +1,10 @@
 import React from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import { Container, Header, Pagination, Table, Button, Form, Input, TextArea } from 'semantic-ui-react';
-import { User, Post } from '../model/model.type';
-import Axios from 'axios';
 import { connect } from 'react-redux';
-import { StateType } from '../model/store.type';
+import { Link, Redirect } from 'react-router-dom';
+import { Button, Container, Header, Pagination, Table } from 'semantic-ui-react';
 import { deletePost } from '../actions/PostActons';
+import { Post, User } from '../model/model.type';
+import { StateType } from '../model/store.type';
 
 interface Props {
     user?: User,
@@ -23,9 +22,9 @@ function UserPosts(props: Props) {
     }
 
     return (
-        <Container fluid  >
+        <Container fluid   >
             <Header as='h1'>Your posts</Header>
-            <Table >
+            <Table sortable >
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>No.</Table.HeaderCell>
@@ -79,7 +78,7 @@ function UserPosts(props: Props) {
 export default connect((state: StateType) => {
     return {
         user: state.user,
-        posts: state.posts.filter(element => state.user && (state.user.category === 'admin' || element.author && element.author.id === state.user.id))
+        posts: state.posts.filter(element => state.user && (state.user.category === 'admin' || (element.author && element.author.id === state.user.id)))
     }
 }, (dispach) => {
     return {

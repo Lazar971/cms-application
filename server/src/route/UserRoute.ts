@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entity/User";
 import * as basicAuth from 'express-basic-auth';
+import * as bodyParser from 'body-parser';
 
 const userDTO = (user: User) => {
     if (!user) {
@@ -29,15 +30,16 @@ const auth = basicAuth({
     }
 })
 const router = Router();
+router.use(bodyParser.urlencoded({ extended: true }));
 router.get('/', (req, res) => {
-
-    res.json(req.headers);
-    console.log(req);
+    getRepository(User).find().then(value => {
+        console.log(value);
+        res.json(value);
+    })
 })
 router.post('/', (req, res) => {
-
     if (req.body.action === 'login') {
-        console.log(req);
+
         getRepository(User).find({
             where: {
                 password: req.body.password,

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Menu, Label, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { User } from '../model/model.type';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button, Menu } from 'semantic-ui-react';
+import { logout } from '../actions/UserActions';
+import { User } from '../model/model.type';
 import { StateType } from '../model/store.type';
 import Weather from './Weather';
-import { logout } from '../actions/UserActions';
 interface Props {
     user?: User,
     logout: () => void;

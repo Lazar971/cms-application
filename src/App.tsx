@@ -14,18 +14,20 @@ import NewPost from './components/user/NewPost';
 import AdminPage from './components/AdminPage';
 import { chechUser } from './actions/UserActions';
 import Signup from './components/user/Signup';
+import { loadCategories } from './actions/PostCategoryActions';
 function App(props: any) {
-  const [loading,setLoading]=React.useState(true);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     console.log('pre');
     props.loadPosts();
-    props.findUser().then((value:void)=>{
+    props.loadCat();
+    props.findUser().then((value: void) => {
       console.log('end')
       setLoading(false);
     });
   }, [])
-  if(loading){
+  if (loading) {
     return (<>
       <Label>Loading...</Label>
     </>)
@@ -58,7 +60,7 @@ function App(props: any) {
           </Route>
           <Route exact path='/signup'>
             <Signup />
-        </Route>
+          </Route>
         </Switch>
       </Grid.Row>
 
@@ -72,6 +74,7 @@ export default connect((state: StateType) => {
 }, (dispach) => {
   return {
     loadPosts: loadPosts(dispach),
-    findUser:chechUser(dispach)
+    findUser: chechUser(dispach),
+    loadCat: loadCategories(dispach)
   }
 })(App);

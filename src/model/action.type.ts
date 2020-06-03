@@ -7,8 +7,10 @@ export enum ActionType {
     FETCH_POST_CATEGORIES = 'fpc',
     SET_ACTIVE_CATEGORY = 'ac',
     SET_CATEGORIES = 'setCategories',
-    DELETE_POST='delpost',
-    LOGOUT='logout'
+    DELETE_POST = 'delpost',
+    LOGOUT = 'logout',
+    ADD_COMMENT = 'add comment',
+    DELETE_COMMENT = 'delete commetn'
 
 }
 

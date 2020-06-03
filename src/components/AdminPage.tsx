@@ -1,22 +1,35 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react';
-import { BarChart, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Bar, PieChart, Pie, Sector } from 'recharts'
-const data = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
-];
-const RADIAN = Math.PI / 180;
-export default function AdminPage() {
+import { BarChart, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Bar, PieChart, Pie, Sector, Text, Label } from 'recharts'
+import { Post, User } from '../model/model.type';
+import { connect } from 'react-redux';
+import { StateType } from '../model/store.type';
+import Axios from 'axios';
+
+interface Props {
+    posts: Post[]
+}
+function AdminPage(props: Props) {
     const [activeIndex, setActiveIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [users, setUsers] = React.useState<User[]>([]);
+    const noOfPosts = (user: User) => {
+        return props.posts.filter(element => element.author.id === user.id).length;
+    }
+    React.useEffect(() => {
+        Axios.get('http://localhost:5000/user').then(value => {
+            console.log({ users: value.data });
+            setUsers(value.data);
+        })
+    }, [])
     return (
         <Container fluid>
             <PieChart
 
-                width={400}
-                height={400}
+                width={700}
+                height={500}
                 compact
+                className='whiteBackground'
             >
                 <Pie
 
@@ -24,36 +37,47 @@ export default function AdminPage() {
                     onMouseEnter={(data, index) => {
                         setActiveIndex(index);
                     }}
+                    onMouseDown={(data, index) => {
+                        setSelectedIndex(index);
+                    }}
                     activeShape={renderActiveShape}
-                    data={data}
+                    data={users.map(element => {
+                        return {
+                            name: element.username,
+                            value: noOfPosts(element)
+                        }
+                    })}
                     cx={200}
                     cy={200}
                     innerRadius={60}
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
+
                 />
             </PieChart>
 
 
             <BarChart
 
-
+                className='whiteBackground'
                 compact
                 width={400}
-                height={400}
-                data={[{
-                    user: 'laza',
-                    value: 4
-                }, {
-                    user: 'agfhg',
-                    value: 7,
-                }]}
+                height={500}
+                data={users.length ? props.posts.filter(post => post.author.id === users[selectedIndex].id).map(element => {
+                    return {
+                        post: element.title,
+                        value: element.comments.length
+                    }
+                }) : []}
             >
-                <XAxis dataKey="user" />
-                <YAxis />
+                <XAxis name='posts' dataKey="post" >
+
+                    <Label value={users.length ? `${users[selectedIndex].username}'s posts` : 'Loading'} offset={0} position="insideBottom" />
+                </XAxis>
+                <YAxis label={{ value: 'Number of comments', angle: -90, position: 'insideLeft', fontSize: 14 }} minTickGap={1} />
                 <Tooltip />
-                <Legend />
+
                 <CartesianGrid stroke="#f5f5f5" />
                 <Bar dataKey="value" fill="#82ca9d" />
             </BarChart>
@@ -101,10 +125,15 @@ const renderActiveShape = (props: any) => {
             />
             <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`PV ${value}`}</text>
+            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`No. of posts ${value}`}</text>
             <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-                {`(Rate ${(percent * 100).toFixed(2)}%)`}
+                {`(${(percent * 100).toFixed(2)}%)`}
             </text>
         </g>
     );
 };
+export default connect((state: StateType) => {
+    return {
+        posts: state.posts
+    }
+})(AdminPage)

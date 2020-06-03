@@ -5,5 +5,5 @@ export interface StateType {
     user: User,
     posts: Post[],
     postCategories: PostCategory[],
-    selectedCategoryId: number
+    selectedCategoryId: number,
 }

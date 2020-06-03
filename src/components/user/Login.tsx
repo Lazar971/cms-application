@@ -39,6 +39,7 @@ function Login(props: Props & RouteComponentProps) {
                         props.history.push('/');
                     }
                 })
+                setPassword('');
 
             }}>Login</Button>
         </Form >

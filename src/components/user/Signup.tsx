@@ -13,13 +13,13 @@ function Signup(props: Props) {
             {error !== '' && <Label color='red' >{error}</Label>}
             <Form.Field>
                 <label>Username</label>
-                <input placeholder='Username' onChange={(e) => {
+                <input placeholder='Username' value={username} onChange={(e) => {
                     setUsername(e.target.value);
                 }} />
             </Form.Field>
             <Form.Field>
                 <label>Password</label>
-                <input type='password' onChange={(e) => {
+                <input type='password' value={password} onChange={(e) => {
                     setPassword(e.target.value);
                 }} />
             </Form.Field>

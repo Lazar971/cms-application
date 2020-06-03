@@ -1,17 +1,20 @@
 import React from 'react';
-import { Container, Header, Comment, Form, Button, Label, Grid, Segment } from 'semantic-ui-react';
-import { Post, User } from '../model/model.type';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Button, Comment, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import { Post, User } from '../model/model.type';
 import { StateType } from '../model/store.type';
 import PostComment from './PostComment';
+import { addComment } from '../actions/PostActons';
 
 interface Props {
     post: Post,
-    user?: User
+    user?: User,
+    onAddComment: (content: string, post: Post) => Promise<void>
 }
 function PostDetails(props: Props & RouteComponentProps) {
     const [showComments, setShowComments] = React.useState(true);
+    const [comment, setComment] = React.useState('');
     if (!props.post) {
         return (<>Loading</>)
     }
@@ -50,16 +53,24 @@ function PostDetails(props: Props & RouteComponentProps) {
             </Grid.Row>
             <Grid.Row >
                 <Grid.Column >
-                    <Segment inverted onClick={() => setShowComments(prev => !prev)} >{(showComments) ? 'Hide ' : 'Show '}comments</Segment>
+                    <Segment inverted as={Button} fluid onClick={() => setShowComments(prev => !prev)} >{(showComments) ? 'Hide ' : 'Show '}comments</Segment>
                     <Comment.Group className='center' collapsed={!showComments}>
                         {props.post.comments.map(element => {
                             return (
-                                <PostComment comment={element} />
+                                <PostComment key={element.id} comment={element} />
                             )
                         })}
                         {props.user && <Form>
-                            <Form.TextArea placeholder='Add comment...' />
-                            <Button content='Add Comment' labelPosition='left' icon='edit' primary />
+                            <Form.TextArea placeholder='Add comment...' value={comment} onChange={(e, data) => {
+                                setComment(e.currentTarget.value);
+                            }} />
+                            <Button content='Add Comment' onClick={(e) => {
+                                e.preventDefault();
+                                console.log(props.post);
+                                props.onAddComment(comment, props.post).then(() => {
+                                    setComment('');
+                                });
+                            }} labelPosition='left' icon='edit' primary />
                         </Form>}
                     </Comment.Group>
                 </Grid.Column>
@@ -75,5 +86,9 @@ export default withRouter(connect((state: StateType, ownProps: RouteComponentPro
             return id == element.id
         }) as Post,
         user: state.user
+    }
+}, (dispach) => {
+    return {
+        onAddComment: addComment(dispach)
     }
 })(PostDetails));

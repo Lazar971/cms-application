@@ -8,7 +8,7 @@ import { addPost } from '../../actions/PostActons';
 interface Props {
     user?: User,
     categories: PostCategory[],
-    onClick: (title: string, desc: string, cat: PostCategory) => void,
+    onClick: (title: string, desc: string, cat: PostCategory) => Promise<void>,
 }
 function NewPost(props: Props) {
     const [title, setTitle] = React.useState('');
