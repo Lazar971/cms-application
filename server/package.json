@@ -12,6 +12,7 @@
    },
    "dependencies": {
       "@types/express-session": "^1.17.0",
+      "axois": "0.0.1-security",
       "body-parser": "^1.19.0",
       "cors": "^2.8.5",
       "express": "^4.17.1",
@@ -19,7 +20,10 @@
       "express-session": "^1.17.1",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
-      "typeorm": "0.2.24"
+      "typeorm": "0.2.24",
+      "typeorm-encrypted": "^0.5.4",
+      "typeorm-encrypted-column": "0.0.4",
+      "xml-js": "^1.6.11"
    },
    "scripts": {
       "start": "ts-node src/index.ts"

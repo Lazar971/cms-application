@@ -24,3 +24,10 @@ export interface Comment {
     user: User,
     post: Post
 }
+export interface UnregisteredUser {
+    firstName: string,
+    lastName: string,
+    username: string,
+    password: string,
+    age: number
+}

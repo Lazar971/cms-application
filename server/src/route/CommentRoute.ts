@@ -5,9 +5,6 @@ import Post from "../entity/Post";
 
 const router = Router();
 router.get('/', (req, res) => {
-    console.log('get');
-    console.log(req.params);
-    console.log(req.body);
     getRepository(Comment).find({
         where: {
             post: {
@@ -15,7 +12,6 @@ router.get('/', (req, res) => {
             }
         }
     }).then(value => {
-        console.log(value);
         res.json(value);
     })
 })
@@ -34,7 +30,6 @@ router.post('/', (req, res) => {
                 }
             });
         }).then(value => {
-            console.log(value);
             res.json(value);
         })
     })

@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { User } from "../entity/User";
 import * as basicAuth from 'express-basic-auth';
 import * as bodyParser from 'body-parser';
+import { ServerResponse } from "http";
 
 const userDTO = (user: User) => {
     if (!user) {
@@ -33,7 +34,6 @@ const router = Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 router.get('/', (req, res) => {
     getRepository(User).find().then(value => {
-        console.log(value);
         res.json(value);
     })
 })
@@ -48,7 +48,6 @@ router.post('/', (req, res) => {
         }).then(value => {
 
             let user = value[0];
-            console.log(user);
 
             if (user) {
                 (req.session as any).user = user;
@@ -58,6 +57,35 @@ router.post('/', (req, res) => {
                 res.json(false);
             }
         })
+        return;
+    }
+    if (req.body.action === 'register') {
+        getRepository(User).findOne({
+            where: {
+                username: req.body.user.username
+            }
+        }).then(value => {
+            console.log('user')
+            if (value) {
+                res.json({
+                    error: 'user already exists'
+                })
+            } else {
+                return getRepository(User).insert(req.body.user);
+            }
+        }).then(value => {
+            console.log('inserted');
+            return getRepository(User).findOne(value.identifiers[0].id);
+        }).then(value => {
+            res.json(value);
+        }).catch(err => {
+            console.log(err);
+            res.status(501);
+            res.json({
+                error: 'something went wrong'
+            });
+        })
+
         return;
     }
     if (req.body.action === 'check') {

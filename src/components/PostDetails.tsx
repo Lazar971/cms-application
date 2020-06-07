@@ -47,7 +47,9 @@ function PostDetails(props: Props & RouteComponentProps) {
             <Grid.Row stretched >
                 <Grid.Column stretched >
                     <Segment basic attached='top' size='large'>
-                        <p>{props.post.description}</p>
+                        {props.post.description.split('\n').map(element => (
+                            <p>{element}</p>
+                        ))}
                     </Segment>
                 </Grid.Column>
             </Grid.Row>

@@ -5,13 +5,19 @@ import * as session from 'express-session'
 import UserRoute from './route/UserRoute'
 import PostRoute from './route/PostRoute'
 import PostCategoryRoute from './route/PostCategoryRoute'
+import WeatherRoute from './route/WeatherRoute'
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
-
+import * as path from 'path'
+import * as https from 'https'
+import * as fs from 'fs'
 createConnection().then(async connection => {
 
-    const app = express();
 
+    const app = express();
+    const key = fs.readFileSync('./.ssh/key.pem', 'utf8');
+    const cert = fs.readFileSync('./.ssh/cert.pem', 'utf8');
+    app.use(express.static(path.join(__dirname, 'build')));
     app.use(cors({
         credentials: true,
 
@@ -32,16 +38,17 @@ createConnection().then(async connection => {
         }
 
     }))
-
+    app.use('/weather', WeatherRoute);
     app.use('/user', UserRoute);
     app.use('/post', PostRoute);
     app.use('/postCategory', PostCategoryRoute);
-    app.use('/', (req, res, next) => {
-
-        res.status(304);
-
-    })
-
-    app.listen(5000, () => console.log("app is listening"))
+    app.get('/', function (req, res) {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    });
+    const server = https.createServer({
+        key: key,
+        cert: cert
+    }, app)
+    server.listen(5000, () => console.log('app is listening'))
 
 }).catch(error => console.log(error));

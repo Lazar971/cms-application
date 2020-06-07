@@ -10,7 +10,7 @@ import { StateType } from './model/store.type';
 import { loadPosts } from './actions/PostActons';
 import Login from './components/user/Login';
 import UserPosts from './components/UserPosts';
-import NewPost from './components/user/NewPost';
+import NewPost, { UpdatePost } from './components/user/NewPost';
 import AdminPage from './components/AdminPage';
 import { chechUser } from './actions/UserActions';
 import Signup from './components/user/Signup';
@@ -54,6 +54,9 @@ function App(props: any) {
           </Route>
           <Route exact path='/newPost'>
             <NewPost />
+          </Route>
+          <Route exact path='/update/:id'>
+            <UpdatePost />
           </Route>
           <Route exact path='/login'>
             <Login />

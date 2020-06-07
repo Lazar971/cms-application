@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { Action, ActionType } from "../model/action.type";
 import Axios from "axios";
-import { User } from "../model/model.type";
+import { User, UnregisteredUser } from "../model/model.type";
 import * as querystring from 'querystring'
 export const loginUser = (dispach: Dispatch<Action>) => {
 
@@ -12,7 +12,7 @@ export const loginUser = (dispach: Dispatch<Action>) => {
             password: password
         });
         console.log(str);
-        return Axios.post('http://localhost:5000/user', str
+        return Axios.post('https://localhost:5000/user', str
             , {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -35,7 +35,7 @@ export const setUserAction = (user?: User): Action => {
 }
 export const chechUser = (dispach: Dispatch<Action>) => () => {
 
-    return Axios.post('http://localhost:5000/user', { action: 'check' }).then(value => {
+    return Axios.post('https://localhost:5000/user', { action: 'check' }).then(value => {
 
         if (!value.data) {
             return;
@@ -45,11 +45,27 @@ export const chechUser = (dispach: Dispatch<Action>) => () => {
     })
 }
 export const logout = (dispach: Dispatch<Action>) => () => {
-    return Axios.post('http://localhost:5000/user', { action: 'logout' }).then(value => {
+    return Axios.post('https://localhost:5000/user', { action: 'logout' }).then(value => {
         if (value.data !== true) {
             alert(value.data);
         } else {
+
             dispach({ type: ActionType.LOGOUT });
+        }
+    })
+}
+
+export const registerUser = (dispach: Dispatch<Action>) => (user: UnregisteredUser) => {
+    return Axios.post('https://localhost:5000/user', {
+        action: 'register',
+        user: user
+    }).then(value => {
+        let data = value.data;
+        console.log(value.data);
+        if (data.error) {
+            return Promise.resolve({ error: data.error });
+        } else {
+            dispach(setUserAction(value.data));
         }
     })
 }

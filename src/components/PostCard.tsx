@@ -11,11 +11,9 @@ export default function PostCard(props: Props) {
         <Card fluid as={Link} to={`/post/${props.post.id}`} color='black'>
             <Card.Content >
                 <Card.Header textAlign='center' >{props.post.title}</Card.Header>
-                <Card.Description textAlign='left'>
-                    {
-                        (props.post.description.length > 200) ? props.post.description.substr(0, 197) + '...' : props.post.description
-                    }
-                </Card.Description>
+                <Card.Meta textAlign='center'>Category: {props.post.category.value}</Card.Meta>
+                <Card.Meta textAlign='center'>Author: {props.post.author.username}</Card.Meta>
+
             </Card.Content>
 
         </Card>

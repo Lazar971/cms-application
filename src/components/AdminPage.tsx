@@ -17,7 +17,7 @@ function AdminPage(props: Props) {
         return props.posts.filter(element => element.author.id === user.id).length;
     }
     React.useEffect(() => {
-        Axios.get('http://localhost:5000/user').then(value => {
+        Axios.get('https://localhost:5000/user').then(value => {
             console.log({ users: value.data });
             setUsers(value.data);
         })
@@ -26,7 +26,7 @@ function AdminPage(props: Props) {
         <Container fluid>
             <PieChart
 
-                width={700}
+                width={500}
                 height={500}
                 compact
                 className='whiteBackground'
@@ -62,7 +62,7 @@ function AdminPage(props: Props) {
 
                 className='whiteBackground'
                 compact
-                width={400}
+                width={600}
                 height={500}
                 data={users.length ? props.posts.filter(post => post.author.id === users[selectedIndex].id).map(element => {
                     return {
@@ -125,7 +125,7 @@ const renderActiveShape = (props: any) => {
             />
             <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`No. of posts ${value}`}</text>
+            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`${value} post${value > 1 ? 's' : ''}`}</text>
             <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
                 {`(${(percent * 100).toFixed(2)}%)`}
             </text>

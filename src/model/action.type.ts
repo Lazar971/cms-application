@@ -10,7 +10,8 @@ export enum ActionType {
     DELETE_POST = 'delpost',
     LOGOUT = 'logout',
     ADD_COMMENT = 'add comment',
-    DELETE_COMMENT = 'delete commetn'
+    DELETE_COMMENT = 'delete commetn',
+    UPDATE_POST = 'update post'
 
 }
 

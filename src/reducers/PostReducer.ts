@@ -10,6 +10,13 @@ export const postReducer = (state: Post[] = [], action: Action = { type: ActionT
         case ActionType.SET_POSTS:
 
             return action.posts;
+        case ActionType.UPDATE_POST:
+            return state.map(element => {
+                if (element.id !== action.post.id) {
+                    return element
+                }
+                return action.post
+            })
         case ActionType.DELETE_POST:
             return state.filter(element => element.id !== action.id);
         case ActionType.ADD_COMMENT:

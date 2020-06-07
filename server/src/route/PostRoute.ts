@@ -1,14 +1,18 @@
 import { Router } from "express";
 import { getRepository } from "typeorm";
-import Post from "../entity/Post";
-import CommentRoute from './CommentRoute'
 import Comment from "../entity/Comment";
-
+import Post from "../entity/Post";
+import * as convert from 'xml-js'
 const router = Router();
 
 router.get('/', (req, res) => {
+
     getRepository(Post).find().then(value => {
-        res.json(value);
+        if (req.headers["content-type"] === 'application/xml') {
+            res.send(convert.js2xml(value));
+        } else {
+            res.json(value);
+        }
     })
 })
 
@@ -30,15 +34,27 @@ router.post('/', (req, res) => {
     }
 })
 router.patch('/:id', (req, res) => {
-
+    getRepository(Post).findOne(req.params.id).then(value => {
+        if (!value) {
+            res.json({
+                status: 'Not found'
+            });
+        } else {
+            return getRepository(Post).update(req.params.id, req.body.post);
+        }
+    }).then(value => {
+        return getRepository(Post).findOne(req.params.id)
+    }).then(value => {
+        res.json({
+            status: 'ok',
+            post: value
+        });
+    })
 })
 router.delete('/:id', (req, res) => {
-    console.log(req.params.id)
     getRepository(Post).findOne(req.params.id).then(value => {
-        console.log(value);
         if (value) {
             getRepository(Post).delete(req.params.id).then(value => {
-                console.log(value);
                 res.json({ status: 'success' });
             }).catch(value => {
                 res.json({ status: 'could not delete' });
@@ -49,9 +65,6 @@ router.delete('/:id', (req, res) => {
     })
 })
 router.get('/:id/comments', (req, res) => {
-    console.log('get');
-    console.log(req.params);
-    console.log(req.body);
     getRepository(Comment).find({
         where: {
             post: {
@@ -59,7 +72,6 @@ router.get('/:id/comments', (req, res) => {
             }
         }
     }).then(value => {
-        console.log(value);
         res.json(value);
     })
 });
@@ -78,7 +90,6 @@ router.post('/:id/comments', (req, res) => {
                 }
             });
         }).then(value => {
-            console.log(value);
             res.json(value);
         })
     })
@@ -92,7 +103,6 @@ router.delete('/:id/comments/:comment', (req, res) => {
             }
         }
     }).then(value => {
-        console.log(value)
         if (!value) {
             res.json({ status: 'not found' });
             return;

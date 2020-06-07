@@ -1,25 +1,33 @@
 import React from 'react';
 import { Container, Header, Form, TextArea, Button, DropdownItemProps, Dropdown } from 'semantic-ui-react';
-import { User, PostCategory } from '../../model/model.type';
-import { Redirect } from 'react-router-dom';
+import { User, PostCategory, Post } from '../../model/model.type';
+import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { StateType } from '../../model/store.type';
-import { addPost } from '../../actions/PostActons';
+import { addPost, updatePost } from '../../actions/PostActons';
 interface Props {
     user?: User,
     categories: PostCategory[],
-    onClick: (title: string, desc: string, cat: PostCategory) => Promise<void>,
+    onClick: (title: string, desc: string, cat: PostCategory, id?: number) => Promise<any>,
+    post?: Post
 }
 function NewPost(props: Props) {
     const [title, setTitle] = React.useState('');
     const [desc, setDesc] = React.useState('');
     const [cat, setCat] = React.useState<PostCategory | undefined>(undefined);
+
+    React.useEffect(() => {
+        if (props.post) {
+            setTitle(props.post.title);
+            setDesc(props.post.description);
+            setCat(props.post.category);
+        }
+    }, [props.post]);
     if (!props.user) {
         return (
             <Redirect to='/login' />
         )
     }
-
     return (
         <Container fluid >
             <Header as='h2'>Add new post</Header>
@@ -47,8 +55,8 @@ function NewPost(props: Props) {
                         alert('Please insert the category')
                         return;
                     }
-                    props.onClick(title, desc, cat);
-                }}>Add post</Button>
+                    props.onClick(title, desc, cat, props.post?.id);
+                }}>{props.post ? 'Modify post' : 'Add post'}</Button>
             </Form>
         </Container>
     );
@@ -63,3 +71,16 @@ export default connect((state: StateType) => {
         onClick: addPost(dispach)
     }
 })(NewPost);
+
+export const UpdatePost = withRouter(connect((state: StateType, ownProps: RouteComponentProps) => {
+    console.log({ routeProps: ownProps })
+    return {
+        user: state.user,
+        categories: state.postCategories,
+        post: state.posts.find(element => element.id == (ownProps.match.params as any).id)
+    }
+}, dispach => {
+    return {
+        onClick: updatePost(dispach)
+    }
+})(NewPost))
