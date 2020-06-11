@@ -64,6 +64,9 @@ function App(props: any) {
           <Route exact path='/signup'>
             <Signup />
           </Route>
+          <Route to='/'>
+            Path does not exist
+          </Route>
         </Switch>
       </Grid.Row>
 

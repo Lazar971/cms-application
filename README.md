@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm run startprod`
+
+Runns the app in production mode<br />
+Open [https://localhost:5000](https://localhost:5000) to view it in the browser.
+
 ### `yarn start`
 
 Runs the app in the development mode.<br />

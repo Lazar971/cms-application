@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Label, Button } from 'semantic-ui-react';
-import { UnregisteredUser } from '../../model/model.type';
+import { UnregisteredUser, User } from '../../model/model.type';
 import { registerUser } from '../../actions/UserActions';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
+import { StateType } from '../../model/store.type';
 interface Props {
-    onSubmit: (user: UnregisteredUser) => Promise<any>
+    onSubmit: (user: UnregisteredUser) => Promise<any>,
+    user: User | null
 }
 function Signup(props: Props & RouteComponentProps) {
     const [username, setUsername] = React.useState('');
@@ -15,6 +17,11 @@ function Signup(props: Props & RouteComponentProps) {
     const [lastname, setlLastname] = React.useState('');
     const [age, setAge] = React.useState<number | undefined>(undefined);
     const [error, setError] = React.useState('');
+    if (props.user) {
+        return (
+            <Redirect to='/' />
+        )
+    }
     return (
         <Form size='big' onSubmit={(e, data) => {
             e.preventDefault();
@@ -100,9 +107,9 @@ function Signup(props: Props & RouteComponentProps) {
         </Form>
     )
 }
-export default withRouter(connect(state => {
+export default withRouter(connect((state: StateType) => {
     return {
-
+        user: state.user
     }
 }, dispach => {
     return {

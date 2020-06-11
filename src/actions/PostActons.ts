@@ -90,8 +90,7 @@ export const deletePost = (dispach: Dispatch<Action>) => (id: number) => {
 }
 export const addComment = (dispach: Dispatch<Action>) => (content: string, post: Post) => {
     return axios.post(`https://localhost:5000/post/${post.id}/comments`, { content: content }).then(value => {
-        console.log('laza');
-        console.log(value);
+
         const data = value.data;
         console.log(value.data);
         dispach({

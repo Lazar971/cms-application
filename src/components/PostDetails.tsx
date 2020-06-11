@@ -84,7 +84,7 @@ export default withRouter(connect((state: StateType, ownProps: RouteComponentPro
     return {
         post: state.posts.find(element => {
             const id = (ownProps.match.params as any).id;
-            console.log({ ownProps: ownProps, equals: id == element.id });
+            // console.log({ ownProps: ownProps, equals: id == element.id });
             return id == element.id
         }) as Post,
         user: state.user

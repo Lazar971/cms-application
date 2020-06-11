@@ -1,13 +1,15 @@
-import React from 'react';
-import { Container } from 'semantic-ui-react';
-import { BarChart, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Bar, PieChart, Pie, Sector, Text, Label } from 'recharts'
-import { Post, User } from '../model/model.type';
-import { connect } from 'react-redux';
-import { StateType } from '../model/store.type';
 import Axios from 'axios';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, Sector, Tooltip, XAxis, YAxis } from 'recharts';
+import { Container } from 'semantic-ui-react';
+import { Post, User } from '../model/model.type';
+import { StateType } from '../model/store.type';
 
 interface Props {
-    posts: Post[]
+    posts: Post[],
+    user: User
 }
 function AdminPage(props: Props) {
     const [activeIndex, setActiveIndex] = React.useState(0);
@@ -21,7 +23,12 @@ function AdminPage(props: Props) {
             console.log({ users: value.data });
             setUsers(value.data);
         })
-    }, [])
+    }, []);
+    if (!props.user || props.user.category === 'user') {
+        return (
+            <Redirect to='/login' />
+        )
+    }
     return (
         <Container fluid>
             <PieChart
@@ -134,6 +141,7 @@ const renderActiveShape = (props: any) => {
 };
 export default connect((state: StateType) => {
     return {
-        posts: state.posts
+        posts: state.posts,
+        user: state.user
     }
 })(AdminPage)

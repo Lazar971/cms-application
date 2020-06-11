@@ -1,21 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { Button, Container, Header, Pagination, Table } from 'semantic-ui-react';
+import { Button, Container, Header, Pagination, Table, Segment } from 'semantic-ui-react';
 import { deletePost } from '../actions/PostActons';
 import { Post, User } from '../model/model.type';
 import { StateType } from '../model/store.type';
+import $ from 'jquery'
+import Axios from 'axios';
 interface Props {
     user?: User,
     posts: Post[],
     onDelete: (id: number) => void
 }
-
+interface Quote {
+    quote: string,
+    author: string
+}
 function UserPosts(props: Props) {
     const [page, setPage] = React.useState(1);
     const [posts, setPosts] = React.useState<Post[]>(props.posts);
     const [direction, setDirection] = React.useState<'ascending' | 'descending' | undefined>(undefined);
     const [column, setColumn] = React.useState<string | null>(null);
+    const [quote, setQuote] = React.useState<Quote | undefined>(undefined);
+
+    React.useEffect(() => {
+        /*   Axios.get(`https://breakingbadapi.com/api/quote/random`, {
+              withCredentials: true,
+  
+          }).then(value => {
+              setQuote(value.data[0]);
+          }) */
+        $.ajax({
+            url: `https://breakingbadapi.com/api/quote/random`,
+            dataType: 'jsonp',
+            success: (response) => {
+                console.log('Success')
+                console.log(response)
+            },
+            error: (err) => {
+                console.log('errpr');
+                console.log(err);
+            }
+        }).then(value => {
+            console.log('success')
+            console.log(value)
+        }).catch(err => {
+            console.log('catch');
+            console.log(err)
+        })
+    }, [])
+
     React.useEffect(() => {
         setPosts(props.posts)
     }, [props.posts])
@@ -108,7 +142,14 @@ function UserPosts(props: Props) {
                     setPage(data.activePage || 1);
                 }
             }} totalPages={Math.ceil(posts.length / 5)} />
-
+            {
+                quote && (
+                    <Segment>
+                        <p>{quote.quote}</p>
+                        <p>Author:{quote.author}</p>
+                    </Segment>
+                )
+            }
         </Container>
     );
 }

@@ -2,20 +2,44 @@ import { Router } from "express";
 import { getRepository } from "typeorm";
 import Comment from "../entity/Comment";
 import Post from "../entity/Post";
-import * as convert from 'xml-js'
+import * as xml from 'xml2js'
 const router = Router();
+const builder = new xml.Builder({
+    renderOpts: { 'pretty': true }
+});
 
 router.get('/', (req, res) => {
 
     getRepository(Post).find().then(value => {
         if (req.headers["content-type"] === 'application/xml') {
-            res.send(convert.js2xml(value));
+            const a = builder.buildObject({
+                posts: value.map(element => {
+                    return {
+                        post: element
+                    }
+                })
+            })
+            res.type('application/xml');
+            res.send(a);
+        } else {
+            res.json(value);
+        }
+
+
+    })
+})
+router.get('/:id', (req, res) => {
+
+    getRepository(Post).findOne(req.params.id).then(value => {
+        if (req.headers["content-type"] === 'application/xml') {
+            res.send({
+                post: value
+            })
         } else {
             res.json(value);
         }
     })
 })
-
 router.post('/', (req, res) => {
 
     if (!req.session.user) {

@@ -1,17 +1,24 @@
 import React from 'react';
 import { Button, Form, Label } from 'semantic-ui-react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/UserActions';
 import $ from 'jquery'
+import { User } from '../../model/model.type';
+import { StateType } from '../../model/store.type';
 interface Props {
-    login: (username: string, password: string) => Promise<any>;
+    login: (username: string, password: string) => Promise<any>,
+    user: User
 }
 
 function Login(props: Props & RouteComponentProps) {
     const [username, setUsername] = React.useState('');
     const [error, setError] = React.useState('');
-
+    if (props.user) {
+        return (
+            <Redirect to='/' />
+        )
+    }
     return (
         <Form size='big' method='post'>
             {error !== '' && <Label color='red' >{error}</Label>}
@@ -45,9 +52,9 @@ function Login(props: Props & RouteComponentProps) {
         </Form >
     );
 }
-export default withRouter(connect(state => {
+export default withRouter(connect((state: StateType) => {
     return {
-
+        user: state.user
     }
 }, (dispach) => {
     return {

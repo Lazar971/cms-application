@@ -18,13 +18,13 @@ createConnection().then(async connection => {
     const key = fs.readFileSync('./.ssh/key.pem', 'utf8');
     const cert = fs.readFileSync('./.ssh/cert.pem', 'utf8');
     app.use(express.static(path.join(__dirname, 'build')));
-    app.use(cors({
-        credentials: true,
-
-        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-        origin: 'http://localhost:3000'
-
-    }));
+    /*  app.use(cors({
+         credentials: true,//protiv xss napada
+ 
+         methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+         origin: 'http://localhost:3000'
+        
+     })); */
     app.use(bodyParser.json());
     app.use(session({
         secret: 'keyboard cat',
@@ -32,8 +32,8 @@ createConnection().then(async connection => {
 
         saveUninitialized: false,
         cookie: {
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 1000 * 60 * 10,
+            secure: true,
+            maxAge: 1000 * 60 * 10,//10min
             httpOnly: true,
         }
 
@@ -42,12 +42,12 @@ createConnection().then(async connection => {
     app.use('/user', UserRoute);
     app.use('/post', PostRoute);
     app.use('/postCategory', PostCategoryRoute);
-    app.get('/', function (req, res) {
+    app.get('/*', function (req, res) {
         res.sendFile(path.join(__dirname, 'build', 'index.html'));
     });
     const server = https.createServer({
         key: key,
-        cert: cert
+        cert: cert,
     }, app)
     server.listen(5000, () => console.log('app is listening'))
 

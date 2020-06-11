@@ -18,18 +18,6 @@ const userDTO = (user: User) => {
         username: user.username,
     }
 }
-const auth = basicAuth({
-    authorizeAsync: true,
-    authorizer: (username, password) => {
-        return getRepository(User).findOne({
-            where: {
-                username: username,
-                password: password
-            }
-        })
-
-    }
-})
 const router = Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 router.get('/', (req, res) => {
