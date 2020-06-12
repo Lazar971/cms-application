@@ -76,7 +76,6 @@ insert  into `post`(`id`,`title`,`description`,`authorId`,`categoryId`) values
 (29,'Fun title','afsgdh\nafsgdhf\nafsdgh',8,1),
 (30,'Another post','some content',8,1),
 (31,'afdsf','afsf',6,2),
-(32,'Naslov','aefsgrdf\nafsgrdh\ndafed',8,1),
 (33,'\\sdfdgfj','zfdchv',8,1),
 (34,'\\sdfdgfj','zfdchv',8,1),
 (35,'sdfdgf','asfdghf',8,2);
@@ -89,13 +88,18 @@ CREATE TABLE `post_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `post_category` */
 
 insert  into `post_category`(`id`,`value`) values 
-(1,'zabava'),
-(2,'biznis');
+(1,'entertainment'),
+(2,'business'),
+(3,'finance'),
+(4,'health'),
+(5,'engineering'),
+(6,'technology'),
+(7,'politics');
 
 /*Table structure for table `user` */
 

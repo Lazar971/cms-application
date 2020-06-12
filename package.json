@@ -26,8 +26,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "startprod": "cd ./server && npm start",
-    "build": "react-scripts build && robocopy /s .\\build .\\server\\src\\build /MOVE",
+    "startprod": "npm run build & cd ./server && npm start",
+    "init": "npm i && cd ./server && npm i && cd .. && npm run startprod",
+    "build": "react-scripts build & robocopy /s .\\build .\\server\\src\\build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -73,7 +73,7 @@ function AdminPage(props: Props) {
                 height={500}
                 data={users.length ? props.posts.filter(post => post.author.id === users[selectedIndex].id).map(element => {
                     return {
-                        post: element.title,
+                        post: element.title.length > 8 ? element.title.substr(0, 8) + '...' : element.title,
                         value: element.comments.length
                     }
                 }) : []}

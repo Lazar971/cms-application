@@ -73,7 +73,7 @@ function UserPosts(props: Props) {
                 return;
             }
             if (selCol === 'author') {
-                setPosts(props.posts.sort((a, b) => a.author.username > b.author.username ? 1 : -1));
+                setPosts(props.posts.sort((a, b) => (a.author.id === props.user?.id || a.author.username > b.author.username) ? 1 : -1));
                 return;
             }
             if (selCol === 'category') {

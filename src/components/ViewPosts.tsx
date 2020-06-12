@@ -34,7 +34,7 @@ function ViewPosts(props: StoreProps) {
 
 export default connect((state: StateType) => {
     return {
-        posts: state.posts,
+        posts: state.posts.sort((a, b) => b.id - a.id),
         categoryId: state.selectedCategoryId
     }
 })(ViewPosts);
