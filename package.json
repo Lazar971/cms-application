@@ -10,7 +10,7 @@
     "@types/node": "^12.12.44",
     "axios": "^0.19.2",
     "jquery": "^3.5.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "querystring": "^0.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
