@@ -13,7 +13,11 @@ export default function PostCard(props: Props) {
                 <Card.Header textAlign='center' >{props.post.title}</Card.Header>
                 <Card.Meta textAlign='center'>Category: {props.post.category.value}</Card.Meta>
                 <Card.Meta textAlign='center'>Author: {props.post.author.username}</Card.Meta>
-
+                <Card.Meta textAlign='center' >
+                    Tags: {props.post.tags && props.post.tags.length > 0 ? props.post.tags.map(element => {
+                    return element.name + ' '
+                }) : 'none'}
+                </Card.Meta>
             </Card.Content>
 
         </Card>

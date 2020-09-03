@@ -1,44 +1,53 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Menu } from 'semantic-ui-react';
-import { loadCategories, setActiveCategory } from '../actions/PostCategoryActions';
-import { PostCategory } from '../model/model.type';
-import { StateType } from '../model/store.type';
+
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { StateType } from '../model/store.type'
+import { Container, Form, Input, Segment, Header, Dropdown, Label, Divider, DropdownItemProps, Button } from 'semantic-ui-react'
+
+import { setTitle } from '../actions/TitleActions'
 
 interface Props {
-    categories: PostCategory[],
-    active: number,
-    onClick: (cat: PostCategory) => void
-    loadCat: () => Promise<void>
-}
-function PostFilter(props: Props) {
 
+    onTitleChange: (text: string) => void;
+}
+
+const PostFilter = (props: Props) => {
+
+    React.useEffect(() => {
+        /*  return () => {
+ 
+         } */
+        console.log({ props: props })
+    }, [])
 
     return (
-        <Menu vertical fluid >
-            <Menu.Item className='inverted' >Categories</Menu.Item>
-            {props.categories.map(element => {
-                return (
-                    <Menu.Item link key={element.id} active={element.id === props.active} onClick={(e) => {
-                        props.onClick(element);
-                    }}>
-                        {element.value}
-                    </Menu.Item>
-                )
-            })}
-        </Menu>
-    );
+        <Container>
+            <Header size='huge'> Filter posts </Header>
+            <Form>
+                <Label>Title</Label>
+                <Input fluid onChange={(e, data) => {
+                    props.onTitleChange(e.currentTarget.value);
+                }} />
+                <Divider hidden></Divider>
+                <Label  >Tag</Label>
+
+            </Form>
+
+
+        </Container>
+    )
 }
-export default connect((state: StateType) => {
+
+const mapStateToProps = (state: StateType) => {
     return {
-        categories: state.postCategories,
-        active: state.selectedCategoryId
+
     }
-}, (dispach) => {
+}
+
+const mapDispatchToProps = (dispach: any) => {
     return {
-        onClick: (cat: PostCategory) => {
-            dispach(setActiveCategory(cat))
-        },
-        loadCat: loadCategories(dispach)
+        onTitleChange: (title: string) => { dispach(setTitle(title)) }
     }
-})(PostFilter)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostFilter)

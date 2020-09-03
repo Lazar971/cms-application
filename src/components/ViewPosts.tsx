@@ -4,20 +4,23 @@ import { Grid, Card } from 'semantic-ui-react';
 import { Post } from '../model/model.type';
 import { StateType } from '../model/store.type';
 import PostCard from './PostCard';
+import PostCategoryFilter from './PostCategoryFilter';
 import PostFilter from './PostFilter';
 
 interface StoreProps {
     posts: Post[],
-    categoryId: number,
 }
 
 function ViewPosts(props: StoreProps) {
 
     return (
         <>
-            <Grid.Column width='10'>
+            <Grid.Column floated='left' width='4'>
+                <PostFilter />
+            </Grid.Column>
+            <Grid.Column width='8'>
                 <Card.Group centered >
-                    {props.posts.filter(element => !props.categoryId || element.category.id === props.categoryId).map(element => {
+                    {props.posts.map(element => {
                         return (
                             <PostCard post={element} key={element.id} />
                         )
@@ -25,8 +28,8 @@ function ViewPosts(props: StoreProps) {
 
                 </Card.Group>
             </Grid.Column >
-            <Grid.Column verticalAlign='top' width='5' >
-                <PostFilter />
+            <Grid.Column verticalAlign='top' width='4' >
+                <PostCategoryFilter />
             </Grid.Column>
         </>
     );
@@ -34,7 +37,7 @@ function ViewPosts(props: StoreProps) {
 
 export default connect((state: StateType) => {
     return {
-        posts: state.posts.sort((a, b) => b.id - a.id),
-        categoryId: state.selectedCategoryId
+        posts: state.posts.filter(element => element.title.toLowerCase().startsWith(state.title.toLowerCase()) && (!state.selectedCategoryId || element.category.id === state.selectedCategoryId)).sort((a, b) => b.id - a.id),
+
     }
 })(ViewPosts);

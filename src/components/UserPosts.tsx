@@ -1,12 +1,11 @@
+import $ from 'jquery';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { Button, Container, Header, Pagination, Table, Segment } from 'semantic-ui-react';
+import { Button, Container, Header, Pagination, Segment, Table } from 'semantic-ui-react';
 import { deletePost } from '../actions/PostActons';
 import { Post, User } from '../model/model.type';
 import { StateType } from '../model/store.type';
-import $ from 'jquery'
-import Axios from 'axios';
 interface Props {
     user?: User,
     posts: Post[],

@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { User } from "./User";
 import Comment from "./Comment";
 import PostCategory from "./PostCategory";
+import Tag from "./Tag";
 
 @Entity()
 export default class Post {
@@ -23,4 +24,8 @@ export default class Post {
 
     @ManyToOne(t => PostCategory, { eager: true })
     category: PostCategory
+
+    @ManyToMany(t => Tag, tag => tag.posts, { eager: true })
+    @JoinTable()
+    tags: Tag[]
 }
