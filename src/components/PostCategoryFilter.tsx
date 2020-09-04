@@ -21,6 +21,7 @@ function PostFilter(props: Props) {
                 return (
                     <Menu.Item link key={element.id} active={element.id === props.active} onClick={(e) => {
                         props.onClick(element);
+                        console.log(element);
                     }}>
                         {element.value}
                     </Menu.Item>

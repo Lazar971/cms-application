@@ -37,7 +37,7 @@ function ViewPosts(props: StoreProps) {
 
 export default connect((state: StateType) => {
     return {
-        posts: state.posts.filter(element => element.title.toLowerCase().startsWith(state.title.toLowerCase()) && (!state.selectedCategoryId || element.category.id === state.selectedCategoryId)).sort((a, b) => b.id - a.id),
+        posts: state.posts.filter(element => element.title.toLowerCase().startsWith(state.title.toLowerCase()) && (!state.selectedCategoryId || element.category.id == state.selectedCategoryId)).sort((a, b) => b.id - a.id),
 
     }
 })(ViewPosts);

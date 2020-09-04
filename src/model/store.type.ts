@@ -1,4 +1,4 @@
-import { User, Post, PostCategory, Tag } from "./model.type";
+import { User, Post, PostCategory } from "./model.type";
 
 export interface StateType {
 

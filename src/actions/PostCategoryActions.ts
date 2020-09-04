@@ -23,7 +23,8 @@ export const setCategories = (cat: PostCategory[]): Action => {
 }
 export const loadCategories = (dispach: Dispatch<Action>) => {
     return () => {
-        return Axios.get('https://localhost:5000/postCategory').then(value => {
+        return Axios.get('https://localhost:8443/postCategory').then(value => {
+
             dispach(setCategories(value.data));
         })
     }

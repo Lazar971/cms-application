@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { Grid, Label } from 'semantic-ui-react';
 import './App.css';
 import PostDetails from './components/PostDetails';
@@ -42,6 +42,9 @@ function App(props: any) {
         <Switch>
           <Route exact path='/'>
             <ViewPosts />
+          </Route>
+          <Route exact path='/index.html'>
+            <Redirect to='/' />
           </Route>
           <Route exact path='/post'>
             <UserPosts />

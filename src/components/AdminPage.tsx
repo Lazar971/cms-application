@@ -19,7 +19,7 @@ function AdminPage(props: Props) {
         return props.posts.filter(element => element.author.id === user.id).length;
     }
     React.useEffect(() => {
-        Axios.get('https://localhost:5000/user').then(value => {
+        Axios.get('https://localhost:8443/user/all').then(value => {
             console.log({ users: value.data });
             setUsers(value.data);
         })

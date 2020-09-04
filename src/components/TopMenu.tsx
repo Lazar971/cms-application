@@ -5,7 +5,6 @@ import { Button, Menu } from 'semantic-ui-react';
 import { logout } from '../actions/UserActions';
 import { User } from '../model/model.type';
 import { StateType } from '../model/store.type';
-import Weather from './Weather';
 interface Props {
     user?: User,
     logout: () => void;
@@ -13,7 +12,7 @@ interface Props {
 function TopMenu(props: Props) {
     return (
         <Menu className='topMenu' borderless stackable fluid attached='top'   >
-            <Weather />
+
             <Menu.Item
 
                 as={Link}

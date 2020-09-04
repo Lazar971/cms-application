@@ -1,29 +1,22 @@
+import Axios from "axios";
 import { Dispatch } from "redux";
 import { Action, ActionType } from "../model/action.type";
-import Axios from "axios";
-import { User, UnregisteredUser } from "../model/model.type";
-import * as querystring from 'querystring'
+import { UnregisteredUser, User } from "../model/model.type";
 export const loginUser = (dispach: Dispatch<Action>) => {
 
     return (username: string, password: string) => {
-        let str = querystring.stringify({
-            action: 'login',
+
+
+        return Axios.post('https://localhost:8443/user/login', {
             username: username,
             password: password
-        });
-        console.log(str);
-        return Axios.post('https://localhost:5000/user', str
-            , {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            }).then(value => {
-                console.log(value.data);
-                if (!value.data) {
-                    return Promise.resolve(false);
-                }
-                dispach(setUserAction(value.data));
-            })
+        }).then(value => {
+            console.log(value.data);
+            if (!value.data) {
+                return Promise.resolve(false);
+            }
+            dispach(setUserAction(value.data));
+        })
     }
 }
 export const setUserAction = (user?: User): Action => {
@@ -35,7 +28,7 @@ export const setUserAction = (user?: User): Action => {
 }
 export const chechUser = (dispach: Dispatch<Action>) => () => {
 
-    return Axios.post('https://localhost:5000/user', { action: 'check' }).then(value => {
+    return Axios.get('https://localhost:8443/user').then(value => {
 
         if (!value.data) {
             return;
@@ -45,7 +38,7 @@ export const chechUser = (dispach: Dispatch<Action>) => () => {
     })
 }
 export const logout = (dispach: Dispatch<Action>) => () => {
-    return Axios.post('https://localhost:5000/user', { action: 'logout' }).then(value => {
+    return Axios.post('https://localhost:8443/user/logout').then(value => {
         if (value.data !== true) {
             alert(value.data);
         } else {
@@ -56,10 +49,7 @@ export const logout = (dispach: Dispatch<Action>) => () => {
 }
 
 export const registerUser = (dispach: Dispatch<Action>) => (user: UnregisteredUser) => {
-    return Axios.post('https://localhost:5000/user', {
-        action: 'register',
-        user: user
-    }).then(value => {
+    return Axios.post('https://localhost:8443/user/register', user).then(value => {
         let data = value.data;
         console.log(value.data);
         if (data.error) {

@@ -11,12 +11,12 @@ export const setPosts = (posts: Post[]): Action => {
 }
 export const loadPosts = (dispach: Dispatch<Action>) => {
     return () => {
-        return axios.get('https://localhost:5000/post').then(value => {
+        return axios.get('https://localhost:8443/post').then(value => {
             let posts = value.data as Post[];
             Promise.all(posts.map(element => {
-                return axios.get(`https://localhost:5000/post/${element.id}/comments`).then(result => {
+                return axios.get(`https://localhost:8443/post/${element.id}/comments`).then(result => {
 
-                    console.log(result.data);
+
                     element.comments = result.data;
                 })
             })).then(value => {
@@ -27,9 +27,12 @@ export const loadPosts = (dispach: Dispatch<Action>) => {
     }
 }
 export const addPost = (dispach: Dispatch<Action>) => (title: string, desc: string, cat: PostCategory, id?: number) => {
-    return axios.post('https://localhost:5000/post', { title: title, description: desc, category: cat }, {
+    return axios.post('https://localhost:8443/post', { title: title, description: desc, category: cat }, {
     }).then(value => {
 
+        if (!value.data) {
+            return;
+        }
         let data = { ...value.data, comments: [] };
         if (data.error) {
 
@@ -47,15 +50,15 @@ export const addPost = (dispach: Dispatch<Action>) => (title: string, desc: stri
 }
 
 export const updatePost = (dispach: Dispatch<Action>) => (title: string, desc: string, cat: PostCategory, id?: number) => {
-    return axios.patch(`https://localhost:5000/post/${id}`, {
-        post: {
-            title: title,
-            description: desc,
-            category: cat
-        }
+    return axios.patch(`https://localhost:8443/post/${id}`, {
+
+        title: title,
+        description: desc,
+        category: cat
+
     }).then(value => {
         if (value.data.status && value.data.status === 'ok') {
-            axios.get(`https://localhost:5000/post/${value.data.post.id}/comments`).then(result => {
+            axios.get(`https://localhost:8443/post/${value.data.post.id}/comments`).then(result => {
                 value.data.post.comments = result.data;
                 dispach({
                     type: ActionType.UPDATE_POST,
@@ -74,7 +77,7 @@ export const updatePost = (dispach: Dispatch<Action>) => (title: string, desc: s
 
 export const deletePost = (dispach: Dispatch<Action>) => (id: number) => {
 
-    return axios.delete('https://localhost:5000/post/' + id).then(value => {
+    return axios.delete('https://localhost:8443/post/' + id).then(value => {
 
         if (!value.data.status) {
             alert('unknown error');
@@ -89,10 +92,10 @@ export const deletePost = (dispach: Dispatch<Action>) => (id: number) => {
     })
 }
 export const addComment = (dispach: Dispatch<Action>) => (content: string, post: Post) => {
-    return axios.post(`https://localhost:5000/post/${post.id}/comments`, { content: content }).then(value => {
+    return axios.post(`https://localhost:8443/post/${post.id}/comments`, { content: content }).then(value => {
 
         const data = value.data;
-        console.log(value.data);
+
         dispach({
             type: ActionType.ADD_COMMENT,
             comment: data
@@ -100,10 +103,9 @@ export const addComment = (dispach: Dispatch<Action>) => (content: string, post:
     })
 }
 export const deleteComment = (dispach: Dispatch<Action>) => (comment: Comment) => {
-    console.log('pre axiosa')
-    return axios.delete(`https://localhost:5000/post/${comment.post.id}/comments/${comment.id}`).then(value => {
-        console.log('laza');
-        console.log(value);
+
+    return axios.delete(`https://localhost:8443/post/${comment.post.id}/comments/${comment.id}`).then(value => {
+
         if (value.data.status === 'deleted') {
             dispach({
                 type: ActionType.DELETE_COMMENT,

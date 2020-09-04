@@ -28,8 +28,7 @@ const PostFilter = (props: Props) => {
                 <Input fluid onChange={(e, data) => {
                     props.onTitleChange(e.currentTarget.value);
                 }} />
-                <Divider hidden></Divider>
-                <Label  >Tag</Label>
+
 
             </Form>
 
