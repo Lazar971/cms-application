@@ -14,7 +14,7 @@ RUN npm i -g typescript
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY . .
+COPY . ./
 
-EXPOSE 8080
+EXPOSE 5000
 CMD [ "npm", "start" ]
