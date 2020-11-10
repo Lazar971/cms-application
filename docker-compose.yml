@@ -13,9 +13,9 @@ services:
         MYSQL_USER: root
         MYSQL_PASSWORD: aesrdht345
     client:
-      dockerfile: Dockerfile
+      image: client
     server:
-      dockerfile: ./server/Dockerfile
+      image: server
       depends_on: db
       ports: 
         -5000:5000
