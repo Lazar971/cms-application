@@ -3,6 +3,7 @@ version: '3.3'
 services: 
     db:
       image: mysql
+      container_name: mysqldb
       restart: always
       command: --init-file /usr/src/proba/cms-application/database.sql
       environment: 
@@ -20,6 +21,7 @@ services:
         DB_USERNAME: root
         DB_PASSWORD: aesrdht345
         DB_DATABASE: cms
+        DB_HOST: mysqldb
       ports: 
         - "5000:5000"
 
