@@ -17,6 +17,8 @@ services:
     server:
       dockerfile: ./server/Dockerfile
       depends_on: db
+      ports: 
+        -5000:5000
       environment: 
         DB_PORT: 3306
         DB_USERNAME: root
