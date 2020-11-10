@@ -11,7 +11,8 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path'
 import * as https from 'https'
 import * as fs from 'fs'
-createConnection().then(async connection => {
+import { config as ormconfig } from './ormconfig'
+createConnection(ormconfig).then(async connection => {
 
 
     const app = express();
@@ -49,6 +50,6 @@ createConnection().then(async connection => {
         key: key,
         cert: cert,
     }, app)
-    server.listen(5000, () => console.log('app is listening'))
+    server.listen(process.env.PORT || 5000, () => console.log('app is listening'))
 
 }).catch(error => console.log(error));

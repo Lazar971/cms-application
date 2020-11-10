@@ -1,0 +1,27 @@
+version: '3.3'
+
+services: 
+    db:
+      image: mysql
+      restart: always
+      command: --init-file /usr/src/proba/cms-application/database.sql
+      ports: 
+        -3306:3306
+      environment: 
+        MYSQL_ROOT_PASSWORD: aesrdht345
+        MYSQL_DATABASE: cms
+        MYSQL_USER: root
+        MYSQL_PASSWORD: aesrdht345
+    client:
+      dockerfile: Dockerfile
+    server:
+      dockerfile: ./server/Dockerfile
+      depends_on: db
+      environment: 
+        DB_PORT: 3306
+        DB_USERNAME: root
+        DB_PASSWORD: aesrdht345
+        DB_DATABASE: cms
+        PORT: 5000
+
+

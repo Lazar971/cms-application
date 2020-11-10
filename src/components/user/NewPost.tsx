@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Header, Form, TextArea, Button, DropdownItemProps, Dropdown, Segment, Label } from 'semantic-ui-react';
-import { User, PostCategory, Post, Tag } from '../../model/model.type';
+import { User, PostCategory, Post } from '../../model/model.type';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { StateType } from '../../model/store.type';
@@ -9,9 +9,7 @@ interface Props {
     user?: User,
     categories: PostCategory[],
     onClick: (title: string, desc: string, cat: PostCategory, id?: number) => Promise<any>,
-    post?: Post,
-    selectedTags?: Tag[],
-    tags?: Tag[],
+    post?: Post
 }
 function NewPost(props: Props) {
     const [title, setTitle] = React.useState('');
@@ -52,26 +50,9 @@ function NewPost(props: Props) {
                     setCat(props.categories.find(element => element.id === data.value));
                 }} />
                 <Header size='medium' textAlign='left'>Add tag</Header>
-                <Dropdown selection fluid options={props.tags?.map((element): DropdownItemProps => {
-                    return {
-                        key: element.id,
-                        text: element.name,
-                        value: element.id
-                    }
-                })} />
+
                 <Header>Tags</Header>
-                <Segment.Group >
-                    {props.selectedTags?.map(element => {
-                        return (
-                            <Segment key={element.id} >
-                                {element.name}
-                                <Button as={Label} floated='right' size='tiny' color='red'>
-                                    X
-                            </Button>
-                            </Segment>
-                        )
-                    })}
-                </Segment.Group>
+
                 <Button disabled={!cat || title === ''} className='inverted' onClick={() => {
                     console.log('kliknuto');
                     if (!cat) {
