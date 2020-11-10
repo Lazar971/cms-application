@@ -7,20 +7,20 @@ services:
       command: --init-file /usr/src/proba/cms-application/database.sql
       environment: 
         MYSQL_ROOT_PASSWORD: aesrdht345
-        MYSQL_DATABASE: cms
-        MYSQL_USER: root
-        MYSQL_PASSWORD: aesrdht345
+      ports: 
+        - "3306:3306"
     client:
       image: client
     server:
       image: server
-      depends_on: 
+      links: 
         - db
       environment: 
         DB_PORT: 3306
         DB_USERNAME: root
         DB_PASSWORD: aesrdht345
         DB_DATABASE: cms
-        PORT: 5000
+      ports: 
+        - "5000:5000"
 
 
